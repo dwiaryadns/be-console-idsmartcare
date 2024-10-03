@@ -64,13 +64,9 @@ export class BisnisOwner {
   })
   updated_at: Date;
 
-  // Relasi dengan BoInfos
-  @OneToOne(() => BoInfos, (boInfos) => boInfos.bisnis_owner_id)
-  @JoinColumn({ name: 'id' })
-  boInfos: BoInfos[];
+  @OneToOne(() => BoInfos, (boInfos) => boInfos.bisnisOwner)
+  boInfos: BoInfos;
 
-  // relasi dengan tabel legal
-  @OneToOne(() => LegalDokumen, (legalDokumen) => legalDokumen.bisnis_owner_id)
-  @JoinColumn({ name: 'id' })
-  legalDokumen: LegalDokumen[];
+  @OneToOne(() => LegalDokumen, (legalDokumen) => legalDokumen.bisnisOwner)
+  legalDokumen: LegalDokumen;
 }

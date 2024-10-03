@@ -1,4 +1,10 @@
-import { Controller, Post,Get, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  BadRequestException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AccessConsole } from '../entities/access-console.entity';
 
@@ -13,6 +19,9 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() body: { username: string; password: string }) {
+    if (!body.username || !body.password) {
+      throw new BadRequestException('Username dan password wajib diisi');
+    }
     const user = await this.authService.validateUser(
       body.username,
       body.password,

@@ -3,14 +3,13 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.setGlobalPrefix('api');
   app.enableCors({
-    origin: '*', //domain
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders:
-      'Content-Type, Accept, Authorization, ngrok-skip-browser-warning',
+    allowedHeaders: 'Content-Type, Accept, Authorization',
   });
 
-  await app.listen(3000); // Menjalankan aplikasi di port 3000
+  await app.listen(5001);
 }
 bootstrap();

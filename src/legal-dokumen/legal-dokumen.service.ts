@@ -33,13 +33,13 @@ export class LegalDokumenService {
         `legal Dokumen dengan ID ${id} tidak ditemukan`,
       );
     }
-    if (['pending', 'reject'].includes(newStatus) && !reason) {
+    if (['pending', 'rejected'].includes(newStatus) && !reason) {
       throw new BadRequestException('Alasan wajib diisi.');
     }
 
     LegalDokumen.status = newStatus;
 
-    if (['pending', 'reject'].includes(newStatus)) {
+    if (['pending', 'rejected'].includes(newStatus)) {
       LegalDokumen.reason = reason;
     } else {
       LegalDokumen.reason = null;

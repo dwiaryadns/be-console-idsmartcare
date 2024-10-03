@@ -30,13 +30,13 @@ export class BoInfosService {
     if (!boInfo) {
       throw new NotFoundException(`BoInfos dengan ID ${id} tidak ditemukan`);
     }
-    if (['pending', 'reject'].includes(status) && !reason) {
+    if (['pending', 'rejected'].includes(status) && !reason) {
       throw new BadRequestException('Alasan wajib diisi.');
     }
 
     boInfo.status = status;
 
-    if (['pending', 'reject'].includes(status)) {
+    if (['pending', 'rejected'].includes(status)) {
       boInfo.reason = reason;
     } else {
       boInfo.reason = null;
@@ -46,7 +46,6 @@ export class BoInfosService {
     return this.boInfosRepository.save(boInfo);
   }
 
-  // relation
   async findAll(): Promise<BoInfos[]> {
     return this.boInfosRepository.find({ relations: ['bisnisOwner'] });
   }
