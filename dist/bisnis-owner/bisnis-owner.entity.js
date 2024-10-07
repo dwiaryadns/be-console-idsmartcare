@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BisnisOwner = void 0;
+const class_transformer_1 = require("class-transformer");
 const bo_infos_entity_1 = require("../bo-infos/bo-infos.entity");
 const legal_dokumen_entity_1 = require("../legal-dokumen/legal-dokumen.entity");
 const typeorm_1 = require("typeorm");
@@ -38,6 +39,7 @@ __decorate([
 ], BisnisOwner.prototype, "email_verified_at", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 255 }),
+    (0, class_transformer_1.Exclude)(),
     __metadata("design:type", String)
 ], BisnisOwner.prototype, "password", void 0);
 __decorate([

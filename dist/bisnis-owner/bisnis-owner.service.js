@@ -17,15 +17,29 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const bisnis_owner_entity_1 = require("./bisnis-owner.entity");
-const pagination_helper_1 = require("../pagination.helper");
+const class_transformer_1 = require("class-transformer");
 let BisnisOwnerService = class BisnisOwnerService {
     constructor(bisnisOwnerRepository) {
         this.bisnisOwnerRepository = bisnisOwnerRepository;
     }
-    async findAll(page = 1, limit = 10) {
-        return (0, pagination_helper_1.paginate)(this.bisnisOwnerRepository, page, limit, {
-            relations: ['boInfos', 'legalDokumen'],
-        });
+    async findAll(page = 1, limit = 10, search = '') {
+        const queryBuilder = this.bisnisOwnerRepository.createQueryBuilder('bisnisOwner');
+        if (search) {
+            queryBuilder.where('LOWER(bisnisOwner.name) LIKE LOWER(:search) OR LOWER(bisnisOwner.email) LIKE LOWER(:search)', {
+                search: `%${search.toLowerCase()}%`,
+            });
+        }
+        queryBuilder.skip((page - 1) * limit).take(limit);
+        queryBuilder.leftJoinAndSelect('bisnisOwner.boInfos', 'boInfos');
+        queryBuilder.leftJoinAndSelect('bisnisOwner.legalDokumen', 'legalDokumen');
+        const [items, total] = await queryBuilder.getManyAndCount();
+        const results = {
+            data: (0, class_transformer_1.classToPlain)(items),
+            totalItems: total,
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+        };
+        return results;
     }
     async create(createDto) {
         const newOwner = this.bisnisOwnerRepository.create(createDto);

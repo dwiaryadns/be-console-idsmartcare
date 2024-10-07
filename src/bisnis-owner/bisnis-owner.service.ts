@@ -5,6 +5,7 @@ import { BisnisOwner } from './bisnis-owner.entity';
 import { CreateBisnisOwnerDto } from './create-bisnis-owner.dto';
 import { UpdateBisnisOwnerDto } from './update-bisnis-owner.dto';
 import { paginate } from 'src/pagination.helper';
+import { classToPlain } from 'class-transformer';
 
 @Injectable()
 export class BisnisOwnerService {
@@ -13,12 +14,42 @@ export class BisnisOwnerService {
     private bisnisOwnerRepository: Repository<BisnisOwner>,
   ) {}
 
-  // service untuk mengambil semua data bisnis_owners GET
-  async findAll(page: number = 1, limit: number = 10): Promise<any> {
-    // Menggunakan helper pagination yang sudah kita buat
-    return paginate<BisnisOwner>(this.bisnisOwnerRepository, page, limit, {
-      relations: ['boInfos', 'legalDokumen'], // Menambahkan relations untuk query
-    });
+  async findAll(
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+  ): Promise<any> {
+    const queryBuilder =
+      this.bisnisOwnerRepository.createQueryBuilder('bisnisOwner');
+
+    // Jika ada parameter search, tambahkan kondisi where
+    if (search) {
+      queryBuilder.where(
+        'LOWER(bisnisOwner.name) LIKE LOWER(:search) OR LOWER(bisnisOwner.email) LIKE LOWER(:search)',
+        {
+          search: `%${search.toLowerCase()}%`,
+        },
+      );
+    }
+
+    // Tambahkan pagination
+    queryBuilder.skip((page - 1) * limit).take(limit);
+
+    // Tambahkan relations jika diperlukan
+    queryBuilder.leftJoinAndSelect('bisnisOwner.boInfos', 'boInfos');
+    queryBuilder.leftJoinAndSelect('bisnisOwner.legalDokumen', 'legalDokumen');
+
+    const [items, total] = await queryBuilder.getManyAndCount();
+
+    // Buat hasil dengan format pagination
+    const results = {
+      data: classToPlain(items), // Menghapus field sensitif seperti password
+      totalItems: total, //
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+    };
+
+    return results;
   }
 
   // service untuk menyimpan data bisnis_owners baru POST

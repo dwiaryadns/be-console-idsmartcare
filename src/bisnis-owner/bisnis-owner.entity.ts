@@ -32,6 +32,7 @@ export class BisnisOwner {
   email_verified_at?: Date;
 
   @Column({ type: 'varchar', length: 255 })
+  @Exclude()
   password: string;
 
   @Column({ type: 'boolean', default: false })

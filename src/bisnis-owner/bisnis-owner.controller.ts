@@ -27,8 +27,8 @@ export class BisnisOwnerController {
   async getAllBisnisOwners(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
+    @Query('search') search: string = '',
   ): Promise<any> {
-    // Memanggil service dengan parameter pagination
     return this.bisnisOwnerService.findAll(Number(page), Number(limit));
   }
 
@@ -39,7 +39,6 @@ export class BisnisOwnerController {
     return this.bisnisOwnerService.create(createDto);
   }
 
-  // fungsi DELETE
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: number): Promise<{ massage: string }> {
@@ -52,7 +51,6 @@ export class BisnisOwnerController {
     return { massage: 'Bisnis owner deleted successfully' };
   }
 
-  // fungsi PUT@Put(':id')
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async update(
