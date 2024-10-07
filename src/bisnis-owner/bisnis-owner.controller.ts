@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { BisnisOwnerService } from './bisnis-owner.service';
 import { BisnisOwner } from './bisnis-owner.entity';
@@ -23,8 +24,12 @@ export class BisnisOwnerController {
   // Endpoint GET untuk mengambil seluruh data bisnis_owners
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getAllBisnisOwners(): Promise<BisnisOwner[]> {
-    return this.bisnisOwnerService.findAll();
+  async getAllBisnisOwners(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<any> {
+    // Memanggil service dengan parameter pagination
+    return this.bisnisOwnerService.findAll(Number(page), Number(limit));
   }
 
   //  membuat api post

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { AccessFasyankes } from 'src/access_fasyankes/access_fasyankes.entity';
+import { Entity, Column, PrimaryColumn, OneToOne, OneToMany } from 'typeorm';
 
 @Entity('fasyankes')
 export class Fasyankes {
@@ -43,4 +44,11 @@ export class Fasyankes {
 
   @Column({ type: 'timestamp', nullable: true })
   updated_at: Date;
+
+  // Mengubah relasi menjadi One-to-Many
+  @OneToMany(
+    () => AccessFasyankes,
+    (accessFasyankes) => accessFasyankes.fasyankes,
+  )
+  accessFasyankes: AccessFasyankes[];
 }

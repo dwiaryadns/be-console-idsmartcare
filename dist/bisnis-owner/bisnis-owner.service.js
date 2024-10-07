@@ -17,12 +17,13 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const bisnis_owner_entity_1 = require("./bisnis-owner.entity");
+const pagination_helper_1 = require("../pagination.helper");
 let BisnisOwnerService = class BisnisOwnerService {
     constructor(bisnisOwnerRepository) {
         this.bisnisOwnerRepository = bisnisOwnerRepository;
     }
-    async findAll() {
-        return this.bisnisOwnerRepository.find({
+    async findAll(page = 1, limit = 10) {
+        return (0, pagination_helper_1.paginate)(this.bisnisOwnerRepository, page, limit, {
             relations: ['boInfos', 'legalDokumen'],
         });
     }

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { BisnisOwner } from './bisnis-owner.entity';
 import { CreateBisnisOwnerDto } from './create-bisnis-owner.dto';
 import { UpdateBisnisOwnerDto } from './update-bisnis-owner.dto';
+import { paginate } from 'src/pagination.helper';
 
 @Injectable()
 export class BisnisOwnerService {
@@ -13,9 +14,10 @@ export class BisnisOwnerService {
   ) {}
 
   // service untuk mengambil semua data bisnis_owners GET
-  async findAll(): Promise<BisnisOwner[]> {
-    return this.bisnisOwnerRepository.find({
-      relations: ['boInfos', 'legalDokumen'] ,
+  async findAll(page: number = 1, limit: number = 10): Promise<any> {
+    // Menggunakan helper pagination yang sudah kita buat
+    return paginate<BisnisOwner>(this.bisnisOwnerRepository, page, limit, {
+      relations: ['boInfos', 'legalDokumen'], // Menambahkan relations untuk query
     });
   }
 

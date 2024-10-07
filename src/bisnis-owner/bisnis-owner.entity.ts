@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { join } from 'path';
 import { BoInfos } from 'src/bo-infos/bo-infos.entity';
 import { LegalDokumen } from 'src/legal-dokumen/legal-dokumen.entity';

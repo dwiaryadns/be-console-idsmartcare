@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Fasyankes = void 0;
+const access_fasyankes_entity_1 = require("../access_fasyankes/access_fasyankes.entity");
 const typeorm_1 = require("typeorm");
 let Fasyankes = class Fasyankes {
 };
@@ -70,6 +71,10 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'timestamp', nullable: true }),
     __metadata("design:type", Date)
 ], Fasyankes.prototype, "updated_at", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => access_fasyankes_entity_1.AccessFasyankes, (accessFasyankes) => accessFasyankes.fasyankes),
+    __metadata("design:type", Array)
+], Fasyankes.prototype, "accessFasyankes", void 0);
 exports.Fasyankes = Fasyankes = __decorate([
     (0, typeorm_1.Entity)('fasyankes')
 ], Fasyankes);

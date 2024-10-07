@@ -1,3 +1,4 @@
+import { AccessFasyankes } from 'src/access_fasyankes/access_fasyankes.entity';
 export declare class Fasyankes {
     fasyankesId: string;
     warehouse_id: number;
@@ -13,4 +14,5 @@ export declare class Fasyankes {
     is_active: boolean;
     created_at: Date;
     updated_at: Date;
+    accessFasyankes: AccessFasyankes[];
 }

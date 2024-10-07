@@ -12,6 +12,6 @@ export class FasyankesService {
 
   // Mendapatkan semua data fasyankes
   async findAll(): Promise<Fasyankes[]> {
-    return await this.fasyankesRepository.find();
+    return this.fasyankesRepository.find({ relations: ['accessFasyankes'] });
   }
 }

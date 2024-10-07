@@ -22,7 +22,7 @@ let FasyankesService = class FasyankesService {
         this.fasyankesRepository = fasyankesRepository;
     }
     async findAll() {
-        return await this.fasyankesRepository.find();
+        return this.fasyankesRepository.find({ relations: ['accessFasyankes'] });
     }
 };
 exports.FasyankesService = FasyankesService;
