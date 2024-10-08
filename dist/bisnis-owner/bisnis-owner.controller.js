@@ -22,8 +22,8 @@ let BisnisOwnerController = class BisnisOwnerController {
     constructor(bisnisOwnerService) {
         this.bisnisOwnerService = bisnisOwnerService;
     }
-    async getAllBisnisOwners(page = 1, limit = 10, search = '') {
-        return this.bisnisOwnerService.findAll(Number(page), Number(limit));
+    async getAllBisnisOwners(page = 1, limit = 10, search = '', status = '') {
+        return this.bisnisOwnerService.findAll(Number(page), Number(limit), search, status);
     }
     async create(createDto) {
         return this.bisnisOwnerService.create(createDto);
@@ -50,8 +50,9 @@ __decorate([
     __param(0, (0, common_1.Query)('page')),
     __param(1, (0, common_1.Query)('limit')),
     __param(2, (0, common_1.Query)('search')),
+    __param(3, (0, common_1.Query)('status')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, String]),
+    __metadata("design:paramtypes", [Number, Number, String, String]),
     __metadata("design:returntype", Promise)
 ], BisnisOwnerController.prototype, "getAllBisnisOwners", null);
 __decorate([

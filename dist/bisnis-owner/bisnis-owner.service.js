@@ -22,12 +22,15 @@ let BisnisOwnerService = class BisnisOwnerService {
     constructor(bisnisOwnerRepository) {
         this.bisnisOwnerRepository = bisnisOwnerRepository;
     }
-    async findAll(page = 1, limit = 10, search = '') {
+    async findAll(page = 1, limit = 10, search = '', status = '') {
         const queryBuilder = this.bisnisOwnerRepository.createQueryBuilder('bisnisOwner');
         if (search) {
             queryBuilder.where('LOWER(bisnisOwner.name) LIKE LOWER(:search) OR LOWER(bisnisOwner.email) LIKE LOWER(:search)', {
                 search: `%${search.toLowerCase()}%`,
             });
+        }
+        if (status) {
+            queryBuilder.andWhere('(boInfos.status = :status OR legalDokumen.status = :status)', { status });
         }
         queryBuilder.skip((page - 1) * limit).take(limit);
         queryBuilder.leftJoinAndSelect('bisnisOwner.boInfos', 'boInfos');
