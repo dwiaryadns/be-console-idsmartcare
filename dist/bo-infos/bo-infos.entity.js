@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoInfos = void 0;
 const bisnis_owner_entity_1 = require("../bisnis-owner/bisnis-owner.entity");
+const history_bo_info_entity_1 = require("../history-bo-info/history-bo-info.entity");
+const history_legal_doc_entity_1 = require("../history-legal-doc/history-legal-doc.entity");
 const typeorm_1 = require("typeorm");
 let BoInfos = class BoInfos {
 };
@@ -95,10 +97,18 @@ __decorate([
     __metadata("design:type", Date)
 ], BoInfos.prototype, "updated_at", void 0);
 __decorate([
+    (0, typeorm_1.OneToMany)(() => history_bo_info_entity_1.HistoryBoInfo, (historyBoInfo) => historyBoInfo.boInfo),
+    __metadata("design:type", Array)
+], BoInfos.prototype, "historyBoInfos", void 0);
+__decorate([
     (0, typeorm_1.OneToOne)(() => bisnis_owner_entity_1.BisnisOwner, (bisnisOwner) => bisnisOwner.boInfos),
     (0, typeorm_1.JoinColumn)({ name: 'bisnis_owner_id' }),
     __metadata("design:type", bisnis_owner_entity_1.BisnisOwner)
 ], BoInfos.prototype, "bisnisOwner", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => history_legal_doc_entity_1.HistoryLegalDoc, (historyLegalDoc) => historyLegalDoc.boInfo),
+    __metadata("design:type", Array)
+], BoInfos.prototype, "historyLegalDocs", void 0);
 exports.BoInfos = BoInfos = __decorate([
     (0, typeorm_1.Entity)('bo_infos')
 ], BoInfos);

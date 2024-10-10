@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FasyankesController = void 0;
 const common_1 = require("@nestjs/common");
@@ -17,16 +20,20 @@ let FasyankesController = class FasyankesController {
     constructor(fasyankesService) {
         this.fasyankesService = fasyankesService;
     }
-    async getAllFasyankes() {
-        return this.fasyankesService.findAll();
+    async getAllFasyankes(page = 1, limit = 10, search = '', is_active) {
+        return this.fasyankesService.findAll(Number(page), Number(limit), search, is_active);
     }
 };
 exports.FasyankesController = FasyankesController;
 __decorate([
     (0, common_1.Get)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Query)('limit')),
+    __param(2, (0, common_1.Query)('search')),
+    __param(3, (0, common_1.Query)('is_active')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, Number, String, Boolean]),
     __metadata("design:returntype", Promise)
 ], FasyankesController.prototype, "getAllFasyankes", null);
 exports.FasyankesController = FasyankesController = __decorate([

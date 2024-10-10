@@ -1,6 +1,8 @@
 import { Exclude } from 'class-transformer';
 import { join } from 'path';
 import { BoInfos } from 'src/bo-infos/bo-infos.entity';
+import { HistoryBoInfo } from 'src/history-bo-info/history-bo-info.entity';
+import { HistoryLegalDoc } from 'src/history-legal-doc/history-legal-doc.entity';
 import { LegalDokumen } from 'src/legal-dokumen/legal-dokumen.entity';
 
 import {
@@ -71,4 +73,12 @@ export class BisnisOwner {
 
   @OneToOne(() => LegalDokumen, (legalDokumen) => legalDokumen.bisnisOwner)
   legalDokumen: LegalDokumen;
+  @OneToMany(() => HistoryBoInfo, (historyBoInfo) => historyBoInfo.bisnisOwner)
+  historyBoInfos: HistoryBoInfo[];
+  // Relasi OneToMany dengan HistoryLegalDoc
+  @OneToMany(
+    () => HistoryLegalDoc,
+    (historyLegalDoc) => historyLegalDoc.bisnisOwner,
+  )
+  historyLegalDocs: HistoryLegalDoc[];
 }

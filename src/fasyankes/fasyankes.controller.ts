@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { FasyankesService } from './fasyankes.service';
 import { Fasyankes } from './fasyankes.entity';
 import { JwtAuthGuard } from 'src/access-console/guards/jwt-auth.guard';
@@ -9,7 +9,17 @@ export class FasyankesController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getAllFasyankes(): Promise<Fasyankes[]> {
-    return this.fasyankesService.findAll();
+  async getAllFasyankes(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search: string = '',
+    @Query('is_active') is_active: boolean,
+  ): Promise<any> {
+    return this.fasyankesService.findAll(
+      Number(page),
+      Number(limit),
+      search,
+      is_active,
+    );
   }
 }

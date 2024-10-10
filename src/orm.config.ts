@@ -5,6 +5,8 @@ import { BoInfos } from './bo-infos/bo-infos.entity';
 import { LegalDokumen } from './legal-dokumen/legal-dokumen.entity';
 import { AccessConsole } from './access-console/entities/access-console.entity';
 import { AccessFasyankes } from './access_fasyankes/access_fasyankes.entity';
+import { HistoryLegalDoc } from './history-legal-doc/history-legal-doc.entity';
+import { HistoryBoInfo } from './history-bo-info/history-bo-info.entity';
 
 export const config: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -21,10 +23,10 @@ export const config: TypeOrmModuleOptions = {
     LegalDokumen,
     AccessConsole,
     AccessFasyankes,
+    HistoryLegalDoc,
+    HistoryBoInfo,
   ],
   synchronize: false,
-  // migrationsRun: true,
-  // synchronize: true, //compainies(id, name, city, location)
   logging: true,
   logger: 'advanced-console',
   // Log SQL queries executed by TypeORM

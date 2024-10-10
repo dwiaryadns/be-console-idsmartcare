@@ -1,4 +1,6 @@
 import { BoInfos } from 'src/bo-infos/bo-infos.entity';
+import { HistoryBoInfo } from 'src/history-bo-info/history-bo-info.entity';
+import { HistoryLegalDoc } from 'src/history-legal-doc/history-legal-doc.entity';
 import { LegalDokumen } from 'src/legal-dokumen/legal-dokumen.entity';
 export declare class BisnisOwner {
     id: number;
@@ -17,4 +19,6 @@ export declare class BisnisOwner {
     updated_at: Date;
     boInfos: BoInfos;
     legalDokumen: LegalDokumen;
+    historyBoInfos: HistoryBoInfo[];
+    historyLegalDocs: HistoryLegalDoc[];
 }

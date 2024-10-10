@@ -1,4 +1,6 @@
 import { BisnisOwner } from 'src/bisnis-owner/bisnis-owner.entity';
+import { HistoryBoInfo } from 'src/history-bo-info/history-bo-info.entity';
+import { HistoryLegalDoc } from 'src/history-legal-doc/history-legal-doc.entity';
 import {
   Entity,
   Column,
@@ -7,6 +9,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('bo_infos')
@@ -73,8 +76,12 @@ export class BoInfos {
   })
   updated_at: Date;
 
+  @OneToMany(() => HistoryBoInfo, (historyBoInfo) => historyBoInfo.boInfo)
+  historyBoInfos: HistoryBoInfo[];
   // Relasi dengan bisnis_owner
   @OneToOne(() => BisnisOwner, (bisnisOwner) => bisnisOwner.boInfos)
   @JoinColumn({ name: 'bisnis_owner_id' }) // Tambahkan ini untuk mendefinisikan kolom join
   bisnisOwner: BisnisOwner;
+  @OneToMany(() => HistoryLegalDoc, (historyLegalDoc) => historyLegalDoc.boInfo)
+  historyLegalDocs: HistoryLegalDoc[];
 }

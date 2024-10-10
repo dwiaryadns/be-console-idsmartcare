@@ -18,6 +18,10 @@ const bo_infos_module_1 = require("./bo-infos/bo-infos.module");
 const legal_dokumen_module_1 = require("./legal-dokumen/legal-dokumen.module");
 const auth_module_1 = require("./access-console/auth/auth.module");
 const access_fasyankes_module_1 = require("./access_fasyankes/access_fasyankes.module");
+const history_bo_info_module_1 = require("./history-bo-info/history-bo-info.module");
+const history_legal_doc_service_1 = require("./history-legal-doc/history-legal-doc.service");
+const history_legal_doc_module_1 = require("./history-legal-doc/history-legal-doc.module");
+const history_legal_doc_controller_1 = require("./history-legal-doc/history-legal-doc.controller");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -30,10 +34,12 @@ exports.AppModule = AppModule = __decorate([
             bo_infos_module_1.BoInfosModule,
             legal_dokumen_module_1.LegalDokumenModule,
             auth_module_1.AuthModule,
-            access_fasyankes_module_1.AccessFasyankesModule
+            access_fasyankes_module_1.AccessFasyankesModule,
+            history_bo_info_module_1.HistoryBoInfoModule,
+            history_legal_doc_module_1.HistoryLegalDocModule,
         ],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [app_controller_1.AppController, history_legal_doc_controller_1.HistoryLegalDocController],
+        providers: [app_service_1.AppService, history_legal_doc_service_1.HistoryLegalDocService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

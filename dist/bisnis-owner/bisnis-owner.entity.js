@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BisnisOwner = void 0;
 const class_transformer_1 = require("class-transformer");
 const bo_infos_entity_1 = require("../bo-infos/bo-infos.entity");
+const history_bo_info_entity_1 = require("../history-bo-info/history-bo-info.entity");
+const history_legal_doc_entity_1 = require("../history-legal-doc/history-legal-doc.entity");
 const legal_dokumen_entity_1 = require("../legal-dokumen/legal-dokumen.entity");
 const typeorm_1 = require("typeorm");
 let BisnisOwner = class BisnisOwner {
@@ -89,6 +91,14 @@ __decorate([
     (0, typeorm_1.OneToOne)(() => legal_dokumen_entity_1.LegalDokumen, (legalDokumen) => legalDokumen.bisnisOwner),
     __metadata("design:type", legal_dokumen_entity_1.LegalDokumen)
 ], BisnisOwner.prototype, "legalDokumen", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => history_bo_info_entity_1.HistoryBoInfo, (historyBoInfo) => historyBoInfo.bisnisOwner),
+    __metadata("design:type", Array)
+], BisnisOwner.prototype, "historyBoInfos", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => history_legal_doc_entity_1.HistoryLegalDoc, (historyLegalDoc) => historyLegalDoc.bisnisOwner),
+    __metadata("design:type", Array)
+], BisnisOwner.prototype, "historyLegalDocs", void 0);
 exports.BisnisOwner = BisnisOwner = __decorate([
     (0, typeorm_1.Entity)('bisnis_owners')
 ], BisnisOwner);

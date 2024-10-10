@@ -17,12 +17,31 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const fasyankes_entity_1 = require("./fasyankes.entity");
+const class_transformer_1 = require("class-transformer");
 let FasyankesService = class FasyankesService {
     constructor(fasyankesRepository) {
         this.fasyankesRepository = fasyankesRepository;
     }
-    async findAll() {
-        return this.fasyankesRepository.find({ relations: ['accessFasyankes'] });
+    async findAll(page = 1, limit = 10, search = '', is_active) {
+        const queryBuilder = this.fasyankesRepository.createQueryBuilder('fasyankes');
+        if (search) {
+            queryBuilder.where('LOWER(fasyankes.name) LIKE LOWER(:search)  OR LOWER(fasyankes.email) LIKE LOWER(:search) ', {
+                search: `%${search.toLocaleLowerCase()}%`,
+            });
+        }
+        if (is_active) {
+            queryBuilder.andWhere('fasyankes.is_active = :is_active', { is_active });
+        }
+        queryBuilder.skip((page - 1) * limit).take(limit);
+        queryBuilder.leftJoinAndSelect('fasyankes.accessFasyankes', 'accessFasyankes');
+        const [items, total] = await queryBuilder.getManyAndCount();
+        const results = {
+            data: (0, class_transformer_1.classToPlain)(items),
+            totalItems: total,
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+        };
+        return results;
     }
 };
 exports.FasyankesService = FasyankesService;
