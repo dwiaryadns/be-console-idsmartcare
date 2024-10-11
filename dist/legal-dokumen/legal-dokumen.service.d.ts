@@ -4,6 +4,6 @@ export declare class LegalDokumenService {
     private readonly legalDokumenRepository;
     constructor(legalDokumenRepository: Repository<LegalDokumen>);
     findOne(id: number): Promise<LegalDokumen>;
-    updateStatus(id: number, newStatus: string, reason?: string): Promise<LegalDokumen>;
+    updateStatus(id: number, newStatus: string, reason?: string, petugas?: string): Promise<LegalDokumen>;
     findAll(): Promise<LegalDokumen[]>;
 }
