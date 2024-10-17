@@ -25,17 +25,10 @@ export class BisnisOwnerController {
   @Get()
   @UseGuards(JwtAuthGuard)
   async getAllBisnisOwners(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('status') status: string = '',
-  ): Promise<any> {
-    return this.bisnisOwnerService.findAll(
-      Number(page),
-      Number(limit),
-      search,
-      status,
-    );
+    @Query('status') status: string,
+  ): Promise<{ data: BisnisOwner[] }> {
+    const owners = await this.bisnisOwnerService.findAll(status);
+    return { data: owners };
   }
 
   //  membuat api post
@@ -45,18 +38,20 @@ export class BisnisOwnerController {
     return this.bisnisOwnerService.create(createDto);
   }
 
+  // fungsi DELETE
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async delete(@Param('id') id: number): Promise<{ massage: string }> {
+  async delete(@Param('id') id: number): Promise<{ message: string }> {
     const result = await this.bisnisOwnerService.delete(Number(id));
 
     if (!result) {
       throw new HttpException('Bisnis owner not found', HttpStatus.NOT_FOUND);
     }
 
-    return { massage: 'Bisnis owner deleted successfully' };
+    return { message: 'Bisnis owner deleted successfully' };
   }
 
+  // fungsi PUT@Put(':id')
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async update(

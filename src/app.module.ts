@@ -9,10 +9,9 @@ import { BoInfosModule } from './bo-infos/bo-infos.module';
 import { LegalDokumenModule } from './legal-dokumen/legal-dokumen.module';
 import { AuthModule } from './access-console/auth/auth.module';
 import { AccessFasyankesModule } from './access_fasyankes/access_fasyankes.module';
-import { HistoryBoInfoModule } from './history-bo-info/history-bo-info.module';
-import { HistoryLegalDocService } from './history-legal-doc/history-legal-doc.service';
 import { HistoryLegalDocModule } from './history-legal-doc/history-legal-doc.module';
-import { HistoryLegalDocController } from './history-legal-doc/history-legal-doc.controller';
+import { HistoryBoInfoModule } from './history-bo-info/history-bo-info.module';
+import { NotificationsModule } from './notification/notifications.module';
 
 @Module({
   imports: [
@@ -23,10 +22,11 @@ import { HistoryLegalDocController } from './history-legal-doc/history-legal-doc
     LegalDokumenModule,
     AuthModule,
     AccessFasyankesModule,
-    HistoryBoInfoModule,
     HistoryLegalDocModule,
+    HistoryBoInfoModule,
+    NotificationsModule,
   ],
-  controllers: [AppController, HistoryLegalDocController],
-  providers: [AppService, HistoryLegalDocService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

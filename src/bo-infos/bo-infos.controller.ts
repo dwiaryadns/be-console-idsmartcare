@@ -36,9 +36,14 @@ export class BoInfosController {
     @Param('id') id: number,
     @Body('status') status: string,
     @Body('reason') reason?: string, // Reason bersifat opsional
-  ): Promise<BoInfos> {
-  // Validasi untuk status "Pending" atau "Reject"
-   
-    return this.boInfosService.updateStatus(id, status, reason);
+    @Body('petugas') petugas?: string, // Petugas bersifat opsional
+  ): Promise<{ boInfo: BoInfos }> {
+    // Validasi untuk status "Pending" atau "Reject"
+    if (['pending', 'rejected'].includes(status) && !reason) {
+      throw new BadRequestException('Alasan wajib diisi.');
+    }
+
+    // Panggil service untuk update status dan reason
+    return this.boInfosService.updateStatus(id, status, reason, petugas);
   }
 }

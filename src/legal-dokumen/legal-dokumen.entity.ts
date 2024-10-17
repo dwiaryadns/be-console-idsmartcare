@@ -1,4 +1,6 @@
 import { BisnisOwner } from 'src/bisnis-owner/bisnis-owner.entity';
+import { BoInfos } from 'src/bo-infos/bo-infos.entity';
+import { HistoryLegalDoc } from 'src/history-legal-doc/history-legal-doc.entity';
 import {
   Entity,
   Column,
@@ -7,6 +9,8 @@ import {
   JoinColumn,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity('legal_doc_bo')
@@ -53,6 +57,9 @@ export class LegalDokumen {
   updated_at: Date;
 
   @OneToOne(() => BisnisOwner, (bisnisOwner) => bisnisOwner.legalDokumen)
-  @JoinColumn({ name: 'bisnis_owner_id' }) 
+  @JoinColumn({ name: 'bisnis_owner_id' })
   bisnisOwner: BisnisOwner;
+
+  @OneToMany(() => HistoryLegalDoc, (historyLegalDoc) => historyLegalDoc.legalDokumen)
+  historyLegalDocs: HistoryLegalDoc[];
 }

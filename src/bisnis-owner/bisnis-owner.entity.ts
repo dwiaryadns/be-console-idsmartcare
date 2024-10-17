@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import { join } from 'path';
 import { BoInfos } from 'src/bo-infos/bo-infos.entity';
 import { HistoryBoInfo } from 'src/history-bo-info/history-bo-info.entity';
@@ -34,7 +33,6 @@ export class BisnisOwner {
   email_verified_at?: Date;
 
   @Column({ type: 'varchar', length: 255 })
-  @Exclude()
   password: string;
 
   @Column({ type: 'boolean', default: false })
@@ -68,17 +66,21 @@ export class BisnisOwner {
   })
   updated_at: Date;
 
+  // Relasi dengan BoInfos
   @OneToOne(() => BoInfos, (boInfos) => boInfos.bisnisOwner)
   boInfos: BoInfos;
 
+  // relasi dengan tabel legal
   @OneToOne(() => LegalDokumen, (legalDokumen) => legalDokumen.bisnisOwner)
   legalDokumen: LegalDokumen;
-  @OneToMany(() => HistoryBoInfo, (historyBoInfo) => historyBoInfo.bisnisOwner)
-  historyBoInfos: HistoryBoInfo[];
+
   // Relasi OneToMany dengan HistoryLegalDoc
   @OneToMany(
     () => HistoryLegalDoc,
     (historyLegalDoc) => historyLegalDoc.bisnisOwner,
   )
   historyLegalDocs: HistoryLegalDoc[];
+
+  @OneToMany(() => HistoryBoInfo, (historyBoInfo) => historyBoInfo.bisnisOwner)
+  historyBoInfos: HistoryBoInfo[];
 }
