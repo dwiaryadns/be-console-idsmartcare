@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { BisnisOwner } from './bisnis-owner.entity';
 import { CreateBisnisOwnerDto } from './create-bisnis-owner.dto';
 import { UpdateBisnisOwnerDto } from './update-bisnis-owner.dto';
+import { classToPlain } from 'class-transformer';
 
 @Injectable()
 export class BisnisOwnerService {
@@ -12,24 +13,41 @@ export class BisnisOwnerService {
     private bisnisOwnerRepository: Repository<BisnisOwner>,
   ) {}
 
-  // service untuk mengambil semua data bisnis_owners GET
-  async findAll(status?: string): Promise<BisnisOwner[]> {
-    const queryBuilder = this.bisnisOwnerRepository
-      .createQueryBuilder('bo')
-      .leftJoinAndSelect('bo.boInfos', 'boInfo')
-      .leftJoinAndSelect('boInfo.historyBoInfos', 'historyBoInfo')
-      .leftJoinAndSelect('bo.legalDokumen', 'legalDokumen')
-      .leftJoinAndSelect('legalDokumen.historyLegalDocs', 'history')
-      .orderBy('bo.created_at', 'DESC'); // Perbaikan di sini
+  async findAll(
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+    status: string = '',
+  ): Promise<any> {
+    const queryBuilder =
+      this.bisnisOwnerRepository.createQueryBuilder('bisnisOwner');
+    if (search) {
+      queryBuilder.where(
+        'LOWER(bisnisOwner.name) LIKE LOWER(:search) OR LOWER(bisnisOwner.email) LIKE LOWER(:search)',
+        {
+          search: `%${search.toLowerCase()}%`,
+        },
+      );
+    }
 
     if (status) {
-      queryBuilder.where(
-        'boInfo.status = :status OR legalDokumen.status = :status',
+      queryBuilder.andWhere(
+        '(boInfos.status = :status OR legalDokumen.status = :status)',
         { status },
       );
     }
 
-    return queryBuilder.getMany();
+    queryBuilder.skip((page - 1) * limit).take(limit);
+    queryBuilder.leftJoinAndSelect('bisnisOwner.boInfos', 'boInfos');
+    queryBuilder.leftJoinAndSelect('bisnisOwner.legalDokumen', 'legalDokumen');
+    const [items, total] = await queryBuilder.getManyAndCount();
+    const results = {
+      data: classToPlain(items),
+      totalItems: total,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+    };
+    return results;
   }
 
   // service untuk menyimpan data bisnis_owners baru POST

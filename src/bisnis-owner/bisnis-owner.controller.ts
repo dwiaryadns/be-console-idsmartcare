@@ -25,10 +25,17 @@ export class BisnisOwnerController {
   @Get()
   @UseGuards(JwtAuthGuard)
   async getAllBisnisOwners(
-    @Query('status') status: string,
-  ): Promise<{ data: BisnisOwner[] }> {
-    const owners = await this.bisnisOwnerService.findAll(status);
-    return { data: owners };
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search: string = '',
+    @Query('status') status: string = '',
+  ): Promise<any> {
+    return this.bisnisOwnerService.findAll(
+      Number(page),
+      Number(limit),
+      search,
+      status,
+    );
   }
 
   //  membuat api post
